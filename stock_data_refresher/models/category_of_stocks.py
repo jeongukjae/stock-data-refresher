@@ -10,5 +10,9 @@ class CategoryOfStocks(Base):
     stock_id = Column(Integer, ForeignKey('stock.id'))
     category_id = Column(Integer, ForeignKey('category.id'))
 
-    stocks = relationship('Stock', backref='category')
-    categories = relationship('Category', backref='stock')
+    stocks = relationship('Stock', back_populates='categories')
+    categories = relationship('Category', back_populates='stocks')
+    
+    def __init__(self, stock_id=None, category_id=None):
+        self.stock_id = stock_id
+        self.category_id = category_id

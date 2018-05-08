@@ -5,7 +5,7 @@ import time
 # pylint:disable=W0614
 from .models import *
 # pylint:enable=W0614
-from .parser import get_kosdaq
+from .parser import insert_all
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Stock Data Refresher')
@@ -18,7 +18,7 @@ def parse_args():
     database_subparser.add_argument('--echo', help='echo log (database)', action="store_true")
 
     stocks_subparser = subparsers.add_parser('stock', help='functions about stocks')
-    stocks_subparser.add_argument('action', type=str, help='things to do', choices=['once', 'watch'])
+    stocks_subparser.add_argument('action', type=str, help='things to do', choices=['put_list'])
     stocks_subparser.add_argument('--uri', type=str, help='database uri.', required=True)
     stocks_subparser.add_argument('--echo', help='echo log (database)', action="store_true")
 
@@ -39,11 +39,12 @@ def parse_args():
             Base.metadata.drop_all(engine)
     
     elif args.kind == 'stock':
-        from .engine import Base, create
+        from .engine import Base, create, session
         engine = create(args.uri, args.echo)
+        sess = session(engine)
 
-        while args.action != 'once':
-            time.sleep(1)
+        if args.action == 'put_list':
+            insert_all(sess)
 
 if __name__ == "__main__":
     parse_args()
