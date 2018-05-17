@@ -2,6 +2,14 @@
 
 주식 데이터 긁어옵니다. 설명 귀찮아요
 
+## 설치
+
+```bash
+$ git clone https://github.com/JeongUkJae/stock-data-refresher
+$ cd stock-data-refresher
+$ pip install -e .
+```
+
 ## 사용법
 
 ### 루프를 돌면서 가격 넣기
@@ -45,3 +53,7 @@ $ stock_data_refresher db drop --uri {database_uri}
 ### DB URI 작성법
 
 예시: `mysql+pymysql://user:password@host:port/db_name?charset=utf8`
+
+## 버그
+
+**정확한 정보**랑 Issues 탭에 달아주세요.
