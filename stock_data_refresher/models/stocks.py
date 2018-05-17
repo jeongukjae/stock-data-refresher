@@ -4,18 +4,18 @@ from sqlalchemy.orm import relationship
 
 from ..engine import Base
 
-class Stock(Base):
-    __tablename__ = 'stock'
+class Stocks(Base):
+    __tablename__ = 'stocks'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(16))
     code = Column(String(8), unique=True)
-    pq = Column(Enum('Q', 'P'))
+    market = Column(Enum('Q', 'P')) # P: KOSPI, Q: KOSDAQ
 
     categories = relationship('CategoryOfStocks', back_populates='stocks')
     price = relationship('PriceOfStock', back_populates='stock', uselist=False)
 
-    def __init__(self, name=None, code=None, pq='P'):
+    def __init__(self, name=None, code=None, market='P'):
         self.name = name
         self.code = code
-        self.pq = pq
+        self.market = market

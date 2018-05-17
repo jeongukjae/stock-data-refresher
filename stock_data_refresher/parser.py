@@ -5,7 +5,7 @@ import re
 
 import requests
 
-from .models import Stock, Category, CategoryOfStocks, PriceOfStock
+from .models import Stocks, Categories, CategoryOfStocks, PriceOfStock
 from .time_elapsed import time_elapsed
 
 def get(url):
@@ -49,13 +49,13 @@ def insert(data, session, type):
     print('insert data into the database...')
     categories_data = dict()
     for category in categories:
-        cat = Category(category[0], category[1], type)
+        cat = Categories(category[0], category[1], type)
         categories_data[category[1]] = cat
         session.add(cat)
 
     for _, value in stocks.items():
         print('insert {} (code: {}).'.format(value['name'], value['code']))
-        stock = Stock(value['name'], value['code'], type)
+        stock = Stocks(value['name'], value['code'], type)
         session.add(stock)
         for category in value['category']:
             cos = CategoryOfStocks(value['code'], category)
@@ -70,7 +70,7 @@ def insert_only_price(data, session, type, stocks):
 
     print('insert pricing data into the database...')
     for stock in stocks:
-        if stock.pq == type:
+        if stock.market == type:
             print('update {} (code: {}).'.format(stock.name, stock.code))
             value = crawled_stocks[stock.code]
 
@@ -87,7 +87,7 @@ def insert_all(session):
 
 @time_elapsed
 def insert_price(session):
-    stocks = session.query(Stock).all()
+    stocks = session.query(Stocks).all()
 
     insert_only_price(get_kospi, session, 'P', stocks)
     insert_only_price(get_kosdaq, session, 'Q', stocks)
