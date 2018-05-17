@@ -50,6 +50,8 @@ $ stock_data_refresher db truncate --uri {database_uri}
 $ stock_data_refresher db drop --uri {database_uri}
 ```
 
+위 기능 전부에서 `--echo` 넣으면 db 로그 찍혀요.
+
 ### DB URI 작성법
 
 예시: `mysql+pymysql://user:password@host:port/db_name?charset=utf8`
