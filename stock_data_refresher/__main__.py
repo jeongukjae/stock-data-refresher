@@ -18,7 +18,7 @@ def parse_args():
     database_subparser.add_argument('--echo', help='echo log (database)', action="store_true")
 
     stocks_subparser = subparsers.add_parser('stock', help='functions about stocks')
-    stocks_subparser.add_argument('action', type=str, help='things to do', choices=['put_list', 'put_in_loop'])
+    stocks_subparser.add_argument('action', type=str, help='things to do', choices=['put_list', 'put_in_loop', 'put_once'])
     stocks_subparser.add_argument('--uri', type=str, help='database uri.', required=True)
     stocks_subparser.add_argument('--echo', help='echo log (database)', action="store_true")
     stocks_subparser.add_argument('--time', help='time of sleeping of each loops. (seconds, 5s as default)', type=int, default=5)
@@ -47,11 +47,14 @@ def parse_args():
         if args.action == 'put_list':
             insert_all(sess)
 
-        if args.action == 'put_in_loop':
+        elif args.action == 'put_in_loop':
             ti = args.time
             while True:
                 insert_price(sess)
                 time.sleep(ti)
+
+        elif args.action == 'put_once':
+            insert_price(sess)
 
 if __name__ == "__main__":
     parse_args()
