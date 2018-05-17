@@ -16,4 +16,9 @@ setup(
         'requests==2.18.4',
         'PyMySQL==0.8.1'
     ],
+    entry_points={
+        'console_scripts': [
+            'stock_data_refresher = stock_data_refresher.__main__:main'
+        ]
+    },
 )

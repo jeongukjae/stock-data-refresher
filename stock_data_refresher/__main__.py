@@ -56,5 +56,8 @@ def parse_args():
         elif args.action == 'put_once':
             insert_price(sess)
 
-if __name__ == "__main__":
+def main():
     parse_args()
+
+if __name__ == "__main__":
+    main()
